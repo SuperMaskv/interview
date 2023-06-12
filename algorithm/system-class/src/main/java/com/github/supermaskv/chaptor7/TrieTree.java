@@ -12,7 +12,10 @@ public class TrieTree {
     public static void main(String[] args) {
         TrieTree tree = new TrieTree();
         tree.insert("abc");
+        tree.insert("abc");
         tree.insert("absk");
+        tree.delete("abc");
+        tree.delete("ab");
         System.out.println();
     }
 
@@ -42,15 +45,45 @@ public class TrieTree {
     }
 
     public void delete(String word) {
-
+        if (count(word) == 0) return;
+        char[] chars = word.toCharArray();
+        Node p = root;
+        p.pass--;
+        int pathIdx;
+        for (char c : chars) {
+            pathIdx = c;
+            if (--p.paths.get(pathIdx).pass == 0) {
+                p.paths.remove(pathIdx);
+                return;
+            }
+            p = p.paths.get(pathIdx);
+        }
+        p.end--;
     }
 
     public int count(String word) {
-
-        return 0;
+        if (word == null) return 0;
+        char[] chars = word.toCharArray();
+        Node p = root;
+        int pathIdx;
+        for (char c : chars) {
+            pathIdx = c;
+            if (!p.paths.containsKey(pathIdx)) return 0;
+            p = p.paths.get(pathIdx);
+        }
+        return p.end;
     }
 
     public int countPrefix(String prefix) {
-        return 0;
+        if (prefix == null) return 0;
+        char[] chars = prefix.toCharArray();
+        Node p = root;
+        int pathIdx;
+        for (char c : chars) {
+            pathIdx = c;
+            if (!p.paths.containsKey(pathIdx)) return 0;
+            p = p.paths.get(pathIdx);
+        }
+        return p.pass;
     }
 }
