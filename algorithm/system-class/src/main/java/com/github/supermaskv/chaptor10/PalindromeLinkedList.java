@@ -11,7 +11,7 @@ public class PalindromeLinkedList {
     public static void main(String[] args) {
         int[] arr = new int[]{1, 2, 3, 2, 1, 2};
         Node head = createLinkedList(arr);
-        System.out.println(isPalindrome2(head));
+        System.out.println(isPalindrome3(head));
     }
 
     private static class Node {
@@ -78,6 +78,52 @@ public class PalindromeLinkedList {
         while (!stack.isEmpty()) {
             if (p.val != stack.pop().val) return false;
             p = p.next;
+        }
+        return true;
+    }
+
+    private static boolean isPalindrome3(Node head) {
+        // extra O(1) space
+        if (head == null) return false;
+        if (head.next == null) return true;
+        // find mid
+        Node newHead = new Node(head);
+        Node pSlow = newHead;
+        Node pFast = newHead;
+        while (pFast != null && pFast.next != null) {
+            pFast = pFast.next.next;
+            pSlow = pSlow.next;
+        }
+        Node pMid = pSlow.next;
+
+        // reverse the right part of linked list
+        Node pPre = pMid;
+        Node pPost = pPre.next;
+        pPre.next = null;
+        while (pPost != null) {
+            Node tempNext = pPost.next;
+            pPost.next = pPre;
+            pPre = pPost;
+            pPost = tempNext;
+        }
+
+        // check if two parts is equal
+        Node pLeft = head;
+        Node pRight = pPre;
+        while (pLeft != null && pRight != null) {
+            if (pLeft.val != pRight.val) return false;
+            pLeft = pLeft.next;
+            pRight = pRight.next;
+        }
+
+        // recover the right part of linked list
+        pPost = pPre.next;
+        pPre.next = null;
+        while (pPost != null) {
+            Node tempNext = pPost.next;
+            pPost.next = pPre;
+            pPre = pPost;
+            pPost = tempNext;
         }
         return true;
     }
