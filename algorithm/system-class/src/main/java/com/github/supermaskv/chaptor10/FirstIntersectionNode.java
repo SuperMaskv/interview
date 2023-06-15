@@ -146,7 +146,7 @@ public class FirstIntersectionNode {
             }
             return longer;
         } else {
-            // have different loop entry
+            // have different loop entries
             Node p = loopEntry1.next;
             while (p != loopEntry1) {
                 if (p == loopEntry2) return loopEntry1;
