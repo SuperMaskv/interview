@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.Random;
 
 /**
- * @author xugr
+ * @author supermaskv
  * 有许多会议要在同一间会议室进行，计算能安排的最多的会议数量
  * e.g.
  * input
